@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">管理员平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -45,42 +45,10 @@
 					</tr>
 					<tr>
 						<td>
-							账号（学号）:
+							账号:
 						</td>
 						<td style="padding-left: 15px;">
 							<?=$user_account?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							性别:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=$user_sex?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							宿舍楼座:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=isset($dorm_building)?$dorm_building."号楼":"未安排"?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							宿舍门牌:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=isset($dorm_number)?$dorm_number."户":"未安排"?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							是否舍长:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=isset($is_supervisor)?$is_supervisor:"未安排"?>
 						</td>
 					</tr>
 				</table>

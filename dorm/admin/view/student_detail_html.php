@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">管理员平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,24 +31,25 @@
 		</div>
 		<div class="column is-8" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
 			<div class="box">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-user"></i>&thinsp;个人信息</h2>
-				<p class="has-text-centered"><span>😃</span><span id="helloMsg">Hello!</span><span><?=$user_name?></span></p>
+				<div class="has-text-centered">
+					<h2 class="has-text-centered subtitle"><i class="fas fa-user-graduate"></i>&thinsp;学生信息</h2>
+				</div>
 				<br>
 				<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
 					<tr>
 						<td>
-							ID:
+							姓名:
 						</td>
 						<td style="padding-left: 15px;">
-							<?=$user_id?>
+							<?=$student_detail["student_name"]?>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							账号（学号）:
+							学号:
 						</td>
 						<td style="padding-left: 15px;">
-							<?=$user_account?>
+							<?=$student_detail["account"]?>
 						</td>
 					</tr>
 					<tr>
@@ -56,23 +57,51 @@
 							性别:
 						</td>
 						<td style="padding-left: 15px;">
-							<?=$user_sex?>
+							<?=$student_detail["sex"]?>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							宿舍楼座:
+							系部:
 						</td>
 						<td style="padding-left: 15px;">
-							<?=isset($dorm_building)?$dorm_building."号楼":"未安排"?>
+							<?=$student_detail["department"]?>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							宿舍门牌:
+							班级:
 						</td>
 						<td style="padding-left: 15px;">
-							<?=isset($dorm_number)?$dorm_number."户":"未安排"?>
+							<?=$student_detail["class_name"]?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							辅导员:
+						</td>
+						<td style="padding-left: 15px;">
+							<?=$student_detail["teacher_name"]?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							宿舍:
+						</td>
+						<td style="padding-left: 15px;">
+							<?php
+								if(empty($student_detail['building'])):
+							?>
+								<span>暂未安排</span>
+							<?php
+								else:
+							?>
+								<a href="./dorm_detail?id=<?=$student_detail['dorm_id']?>">
+									<?=$student_detail['building']?>号楼&nbsp;<?=$student_detail['number']?>户
+								</a>
+							<?php
+								endif;
+							?>
 						</td>
 					</tr>
 					<tr>
@@ -80,13 +109,20 @@
 							是否舍长:
 						</td>
 						<td style="padding-left: 15px;">
-							<?=isset($is_supervisor)?$is_supervisor:"未安排"?>
+							<?=$student_detail["supervisor"]?>
 						</td>
 					</tr>
 				</table>
 				<br>
-				<div class="has-text-right">
-					<a class="button is-info is-outlined is-small" href="../public/changepwd.php">修改密码</a>
+				<div class="has-text-centered">
+					<a class="button is-info is-outlined is-small" href="./violation_add.php?id=<?=$student_detail["student_id"]?>">
+						违规登记
+					</a>
+				</div>
+				<br>
+				<div class="has-text-centered">
+					<a href="leave.php"><i class="fas fa-arrow-left"></i>&thinsp;
+					<a href="JavaScript:history.go(-1)">返回</a>
 				</div>
 			</div>
 		</div>

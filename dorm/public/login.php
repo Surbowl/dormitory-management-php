@@ -18,16 +18,18 @@
 		if(strtolower($captch)==strtolower($_SESSION['captcha'])){
 			$type=$_POST['type'];
 			if(!empty($account)&&!empty($pwd)&&!empty($type)){
-				$sql="select id,name from t_$type where account='$account' and pwd='$pwd'";
+				$sql="select * from t_$type where account='$account' and pwd='$pwd'";
 				$result=$pdo->query($sql);
 				$row=$result->fetch();
 				$id=$row['id'];
 				$name=$row['name'];
+				$sex=$row['sex'];
 				if(!empty($id)){
 					$_SESSION['user_id']=$id;
 					$_SESSION['user_account']=$account;
 					$_SESSION['user_type']=$type;
 					$_SESSION['user_name']=$name;
+					$_SESSION['user_sex']=$sex;
 					header("Location: ../$type/home.php");
 				}else{
 					$pwd=null;

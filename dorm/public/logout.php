@@ -4,6 +4,7 @@
 	$_SESSION['user_account']=null;
 	$_SESSION['user_type']=null;
 	$_SESSION['user_name']=null;
+	$_SESSION['user_sex']=null;
 	
 	$_SESSION['dorm_id']=null;
 	$_SESSION['dorm_building']=null;

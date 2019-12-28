@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">管理员平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,48 +31,24 @@
 		</div>
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-suitcase-rolling"></i>&thinsp;外宿请假</h2>
-				<div class="columns">
-					<div class="column">
-						<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-							<tr>
-								<td>
-									学生姓名:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_name?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									账号（学号）:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_account?>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="column has-text-centered">
-						<a class="button is-info is-outlined is-small" <?=isset($user_id)?"href=\"leave_add.php\"":"disabled=\"disabled\""?>>
-							提交申请
-						</a>
-					</div>
-				</div>
+				<h2 class="has-text-centered subtitle"><i class="fas fa-suitcase-rolling"></i>&thinsp;学生假条</h2>
+				<p class="has-text-centered has-text-grey"><i class="fas fa-info-circle"></i>&thinsp;此处显示的假条均已通过辅导员批准</p>
+				<br>
 					<?php
 						if(empty($leave_list)):
 					?>
-						<p class="has-text-centered">暂无申请记录</p>
+						<p class="has-text-centered">暂无学生假条</p>
 					<?php
 						else:
 					?>
 						<table class="table" style="width: 100%;">
 							<thead>
 							    <tr>
-									<th>起始时间</th>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>宿舍</th>
+									<th>离校时间</th>
 									<th>返校时间</th>
-									<th>外宿原因</th>
-									<th>辅导员审批</th>
 							    </tr>
 							</thead>
 					<?php
@@ -80,16 +56,45 @@
 					?>
 								<tr>
 									<td>
+										<?=$row['account']?>
+									</td>
+									<td>
+										<a href="./student_detail.php?id=<?=$row['student_id']?>">
+											<?=$row['name']?>
+										</a>
+									</td>
+									<td>
+										<a href="./dorm_detail?id=<?=$row['dorm_id']?>">
+											<?=$row['building']?>号楼&nbsp;<?=$row['number']?>户
+										</a>
+									</td>
+									<td>
 										<?=date('Y-m-d H:i',strtotime($row['date_start']))?>
 									</td>
 									<td>
 										<?=date('Y-m-d H:i',strtotime($row['date_end']))?>
 									</td>
-									<td>
-										<?=$row['request']?>
+								</tr>
+								<tr>
+									<td colspan="4">
+										请假原因:&nbsp;<?=$row['request']?>
+										<br>
+										&nbsp;										
 									</td>
 									<td>
-										<?=$row['teacher_response']?>
+										<?php
+											if(strtotime($row['date_end'])>time()):
+										?>
+												<span class="tag is-success">有效</span>
+										<?php
+											else:
+										?>
+												<span class="tag is-warning is-light">过期</span>
+										<?php
+											endif;
+										?>
+										<br>
+										&nbsp;
 									</td>
 								</tr>
 					<?php 

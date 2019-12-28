@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">管理员平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,48 +31,43 @@
 		</div>
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-clipboard-list"></i>&thinsp;违规记录</h2>
-				<div class="columns">
-					<div class="column">
-						<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-							<tr>
-								<td>
-									姓名:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_name?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									账号（学号）:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_account?>
-								</td>
-							</tr>
-						</table>
-					</div>
+				<h2 class="has-text-centered subtitle"><i class="fas fa-paste"></i>&thinsp;学生违规</h2>
+				<div class="has-text-centered">
+					<a class="button is-info is-outlined is-small" href="./student.php?func=违规登记">
+						违规登记
+					</a>
 				</div>
+				<br>
 					<?php
-						if(empty($maintain_list)):
+						if(empty($violation_list)):
 					?>
-						<p class="has-text-centered">没有违规记录，请保持哟~</p>
+						<p class="has-text-centered">暂无学生违规记录</p>
 					<?php
 						else:
 					?>
 						<table class="table" style="width: 100%;">
 							<thead>
 							    <tr>
-									<th>日期</th>
-									<th>详情</th>
-									<th>辅导员回复</th>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>违规日期</th>
+									<th>违规内容</th>
+									<th>辅导员答复</th>
+									<th>操作</th>
 							    </tr>
 							</thead>
 					<?php
-							foreach($maintain_list as $row):
+							foreach($violation_list as $row):
 					?>
 								<tr>
+									<td>
+										<?=$row['account']?>
+									</td>
+									<td>
+										<a href="./student_detail?id=<?=$row['student_id']?>">
+											<?=$row['name']?>
+										</a>
+									</td>
 									<td>
 										<?=date('Y-m-d',strtotime($row['date']))?>
 									</td>
@@ -82,11 +77,29 @@
 									<td>
 										<?=$row['teacher_response']?>
 									</td>
+									<td>
+										<a class="button is-outlined is-danger is-small" onclick="checkDelete(<?=$row['id']?>,'<?=$row['name']?>')">
+											删除
+										</a>
+									</td>
 								</tr>
 					<?php 
 							endforeach;
 					?>
 						</table>
+						<form id="form" method="post" action="violation.php?page=<?=$page?>">
+							<!-- 提交用的隐藏表单 -->
+							<input type="hidden" name="id" id="id" />
+						</form>
+						<script>
+							function checkDelete(id,name){
+								var r = confirm("确定删除"+name+"同学的违规记录吗？");
+								if (r == true) {
+									$("#id").val(id);
+									$("form").submit();
+								}
+							}
+						</script>
 						<?php
 							if($max_page>1):
 						?>

@@ -32,13 +32,12 @@
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
 				<div class="has-text-centered">
-					<i class="fas fa-wrench"></i>&thinsp;
 					<a class="subtitle">物业报修</a>
 					&thinsp;<i class="fas fa-chevron-right"></i>&nbsp;提交申请
 				</div>
 				<br>
 				<form method="post" action="maintain_add.php">
-					<table style="width: 100%;">
+					<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
 						<tr>
 							<td>
 								宿舍楼座:

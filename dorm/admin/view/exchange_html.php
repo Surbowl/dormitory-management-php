@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">管理员平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,49 +31,24 @@
 		</div>
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-exchange-alt"></i>&thinsp;申请换宿</h2>
-				<div class="columns">
-					<div class="column">
-						<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-							<tr>
-								<td>
-									当前宿舍楼座:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=isset($dorm_building)?$dorm_building." 号楼":"未安排"?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									当前宿舍门牌:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=isset($dorm_number)?$dorm_number." 户":"未安排"?>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="column has-text-centered">
-						<a class="button is-info is-outlined is-small" href="exchange_add.php">
-							提交申请
-						</a>
-					</div>
-				</div>
+				<h2 class="has-text-centered subtitle"><i class="fas fa-exchange-alt"></i>&thinsp;换宿申请</h2>
 					<?php
 						if(empty($exchange_list)):
 					?>
-							<p class="has-text-centered">暂无申请记录</p>
+						<p class="has-text-centered">暂无换宿申请</p>
 					<?php
 						else:
 					?>
 						<table class="table" style="width: 100%;">
 							<thead>
 							    <tr>
-									<th>提交日期</th>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>申请日期</th>
+									<th>当前宿舍</th>
 									<th>目标宿舍</th>
-									<th>换宿原因</th>
-									<th>宿管回复</th>
-									<th>辅导员审批</th>
+									<th>状态</th>
+									<th></th>
 							    </tr>
 							</thead>
 					<?php
@@ -81,19 +56,55 @@
 					?>
 								<tr>
 									<td>
+										<?=$row['account']?>
+									</td>
+									<td>
+										<a href="./student_detail.php?id=<?=$row['student_id']?>">
+											<?=$row['name']?>
+										</a>
+									</td>
+									<td>
 										<?=date('Y-m-d',strtotime($row['date']))?>
 									</td>
 									<td>
-										<?=$row['building']?>号楼 <?=$row['number']?>户
+										<?php
+											if(!empty($row['from_dorm_id'])):
+										?>
+												<a href="./dorm_detail?id=<?=$row['from_dorm_id']?>">
+													<?=$row['from_dorm_building']?>号楼&nbsp;<?=$row['from_dorm_number']?>户
+												</a>
+										<?php
+											else:
+										?>
+												<span>暂未安排</span>
+										<?php
+											endif;
+										?>
 									</td>
 									<td>
-										<?=$row['request']?>
+										<a href="./dorm_detail?id=<?=$row['to_dorm_id']?>">
+											<?=$row['to_dorm_building']?>号楼&nbsp;<?=$row['to_dorm_number']?>户
+										</a>
 									</td>
 									<td>
-										<?=$row['admin_response']?>
+										<?php
+											if(empty($row['admin_response'])):
+										?>
+												<a class="button is-outlined is-info is-small" href="./exchange_detail?id=<?=$row['id']?>">
+													待回复
+												</a>
+										<?php
+											else:
+										?>
+												<a class="button is-outlined is-success is-small" href="./exchange_detail?id=<?=$row['id']?>">
+													已回复
+												</a>
+										<?php
+											endif;
+										?>
 									</td>
 									<td>
-										<?=$row['teacher_response']?>
+										
 									</td>
 								</tr>
 					<?php 

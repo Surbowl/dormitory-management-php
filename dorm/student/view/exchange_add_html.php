@@ -33,13 +33,12 @@
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
 				<div class="has-text-centered">
-					<i class="fas fa-exchange-alt"></i>&thinsp;
 					<a class="subtitle">申请换宿</a>
 					&thinsp;<i class="fas fa-chevron-right"></i>&nbsp;提交申请
 				</div>
 				<br>
 				<form method="post" action="exchange_add.php">
-					<table style="width: 100%;">
+					<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
 						<tr>
 							<td>
 								学生姓名:
@@ -54,6 +53,14 @@
 							</td>
 							<td style="padding-left: 15px;">
 								<?=$user_account?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								性别:
+							</td>
+							<td style="padding-left: 15px;">
+								<?=$user_sex?>
 							</td>
 						</tr>
 						<tr>
@@ -75,11 +82,6 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3">
-								&nbsp;
-							</td>
-						</tr>
-						<tr>
 							<td>
 								楼座:
 							</td>
@@ -91,11 +93,6 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3">
-								&nbsp;
-							</td>
-						</tr>
-						<tr>
 							<td>
 								门牌:
 							</td>
@@ -104,11 +101,6 @@
 							</td>
 							<td>
 								<span>&emsp;户</span>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-								&nbsp;
 							</td>
 						</tr>
 						<tr>

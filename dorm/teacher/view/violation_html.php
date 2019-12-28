@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">教师平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,62 +31,75 @@
 		</div>
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-clipboard-list"></i>&thinsp;违规记录</h2>
-				<div class="columns">
-					<div class="column">
-						<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-							<tr>
-								<td>
-									姓名:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_name?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									账号（学号）:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_account?>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
+				<h2 class="has-text-centered subtitle"><i class="fas fa-clipboard-list"></i>&thinsp;学生违规</h2>
 					<?php
-						if(empty($maintain_list)):
+						if(empty($violation_list)):
 					?>
-						<p class="has-text-centered">没有违规记录，请保持哟~</p>
+						<p class="has-text-centered">暂无学生违规记录</p>
 					<?php
 						else:
 					?>
 						<table class="table" style="width: 100%;">
 							<thead>
 							    <tr>
-									<th>日期</th>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>班级</th>
+									<th>时间</th>
 									<th>详情</th>
-									<th>辅导员回复</th>
+									<th>状态</th>
 							    </tr>
 							</thead>
 					<?php
-							foreach($maintain_list as $row):
+							foreach($violation_list as $row):
 					?>
 								<tr>
 									<td>
-										<?=date('Y-m-d',strtotime($row['date']))?>
+										<?=$row['account']?>
+									</td>
+									<td>
+										<?=$row['student_name']?>
+									</td>
+									<td>
+										<?=$row['class_name']?>
+									</td>
+									<td>
+										<?=date('Y-m-d H:i',strtotime($row['date']))?>
 									</td>
 									<td>
 										<?=$row['detail']?>
 									</td>
-									<td>
-										<?=$row['teacher_response']?>
-									</td>
+									<?php
+										$teacher_response=$row['teacher_response'];
+										if(empty($teacher_response)):
+									?>
+										<td>
+											<a class="button is-small is-outlined is-link" onclick="check(<?=$row['id']?>)">设为已读</a>
+										</td>
+									<?php
+										else:
+									?>
+										<td>
+											<span class="tag is-success is-light">已读</span>
+										</td>
+									<?php
+										endif;
+									?>
 								</tr>
 					<?php 
 							endforeach;
 					?>
 						</table>
+						<form id="form" method="post" action="violation.php?page=<?=$page?>">
+							<!-- 提交用的隐藏表单 -->
+							<input type="hidden" name="id" id="id" />
+						</form>
+						<script>
+							function check(id){
+								$("#id").val(id);
+								$("form").submit();
+							}
+						</script>
 						<?php
 							if($max_page>1):
 						?>

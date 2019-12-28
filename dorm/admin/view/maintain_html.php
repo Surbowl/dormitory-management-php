@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">管理员平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,38 +31,11 @@
 		</div>
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-wrench"></i>&thinsp;物业报修</h2>
-				<div class="columns">
-					<div class="column">
-						<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-							<tr>
-								<td>
-									宿舍楼座:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=isset($dorm_building)?$dorm_building." 号楼":"未安排"?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									宿舍门牌:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=isset($dorm_number)?$dorm_number." 户":"未安排"?>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="column has-text-centered">
-						<a class="button is-info is-outlined is-small" <?=isset($dorm_id)?"href=\"maintain_add.php\"":"disabled=\"disabled\""?>>
-							提交申请
-						</a>
-					</div>
-				</div>
+				<h2 class="has-text-centered subtitle"><i class="fas fa-wrench"></i>&thinsp;维修申请</h2>
 					<?php
 						if(empty($maintain_list)):
 					?>
-						<p class="has-text-centered">暂无报修记录</p>
+						<p class="has-text-centered">暂无维修申请</p>
 					<?php
 						else:
 					?>
@@ -70,8 +43,10 @@
 							<thead>
 							    <tr>
 									<th>日期</th>
+									<th>宿舍</th>
 									<th>报修内容</th>
-									<th>答复</th>
+									<th>状态</th>
+									<th></th>
 							    </tr>
 							</thead>
 					<?php
@@ -82,10 +57,29 @@
 										<?=date('Y-m-d',strtotime($row['date']))?>
 									</td>
 									<td>
+										<a href="./dorm_detail?id=<?=$row['dorm_id']?>">
+											<?=$row['building']?>号楼&nbsp;<?=$row['number']?>户
+										</a>
+									</td>
+									<td>
 										<?=$row['request']?>
 									</td>
 									<td>
-										<?=$row['admin_response']?>
+										<?php
+											if(empty($row['admin_response'])):
+										?>
+												<a class="button is-outlined is-info is-small" href="maintain_detail.php?id=<?=$row['id']?>">
+													待回复
+												</a>
+										<?php
+											else:
+										?>
+												<a class="button is-outlined is-success is-small" href="maintain_detail.php?id=<?=$row['id']?>">
+													已回复
+												</a>
+										<?php
+											endif;
+										?>
 									</td>
 								</tr>
 					<?php 

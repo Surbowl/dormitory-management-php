@@ -5,6 +5,7 @@
 	//头部文件
 	require '../public/_share/_head.php';
 ?>
+
 <script src="../lib/jquery.datetimepicker.js" type="text/javascript"></script>
 <link href="../lib/jquery.datetimepicker.css" rel="stylesheet"/>
 <div class="hero is-info">
@@ -33,13 +34,12 @@
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
 				<div class="has-text-centered">
-					<i class="fas fa-suitcase-rolling"></i>&thinsp;
 					<a class="subtitle">外宿请假</a>
 					&thinsp;<i class="fas fa-chevron-right"></i>&nbsp;提交申请
 				</div>
 				<br>
 				<form method="post" action="leave_add.php">
-					<table style="width: 100%;">
+					<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
 						<tr>
 							<td>
 								学生姓名:
@@ -57,11 +57,6 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								&nbsp;
-							</td>
-						</tr>
-						<tr>
 							<td>
 								起始时间:
 							</td>
@@ -70,21 +65,11 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								&nbsp;
-							</td>
-						</tr>
-						<tr>
 							<td>
 								返校时间:
 							</td>
 							<td style="padding-left: 15px;">
 								<input class="input" name="date_end" id="date_end" required="required" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								&nbsp;
 							</td>
 						</tr>
 						<tr>
@@ -120,6 +105,7 @@
 		$("#date_end").datetimepicker(options);
 	})
 </script>
+
 <?php
 	//脚部文件
 	require '../public/_share/_footer.php';

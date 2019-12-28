@@ -5,20 +5,29 @@
 	
 	if(isset($_SESSION['user_id'])&&isset($_SESSION['user_type'])){
 		$user_type=$_SESSION['user_type'];
-		if($user_type!="student"){
-			//非学生用户不允许访问学生平台
+		if($user_type!="admin"){
+			//非管理员用户不允许访问管理员平台
 			header("Location: ../$user_type/home.php");
 		}else{
-			//获取学生信息
-			$user_account=$_SESSION['user_account'];
-			$user_name=$_SESSION['user_name'];
-			$user_id=$_SESSION['user_id'];
-
+			
 			require '../public/_share/_pdo.php';
+			
+			//处理表单提交
+			if($_POST){
+				$voilation_id=$_POST['id'];
+
+				$sql="delete from t_student_violation where id=?";
+				$stmt=$pdo->prepare($sql);
+				$stmt->bindParam(1,$voilation_id);
+				if(!$stmt->execute())
+				{
+					exit("删除失败，请重试。".$stmt->errorInfo());
+				}
+			}
 			
 			//处理分页
 			$page_size=5;
-			$result=$pdo->query("select count(*) from t_student_violation where student_id=$user_id");
+			$result=$pdo->query("select count(*) from t_student_violation");
 			$count=$result->fetch()[0];
 			$max_page=ceil($count/$page_size);
 			$page=isset($_GET['page']) ? intval($_GET['page']) : 1;
@@ -26,10 +35,12 @@
 			$page=$page < 1 ? 1 : $page;
 			$lim=($page -1)*$page_size;
 			
-			$sql="select * from t_student_violation where student_id=$user_id order by date desc limit $lim,$page_size";
+			$sql="select a.id,student_id,date,detail,teacher_response,name,account
+				from t_student_violation as a join t_student as b on a.student_id=b.id
+				order by date desc limit $lim,$page_size";
 			$result=$pdo->query($sql);
-			$maintain_list=$result->fetchAll();
-		
+			$violation_list=$result->fetchAll();
+			
 			require './view/violation_html.php';
 		}
 	}else{

@@ -26,70 +26,62 @@
 		<div class="column is-two-fifths has-text-centered">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
 				<div class="field is-centered">
-					<h2 class="subtitle">用户登录</h2>
+					<h2 class="subtitle"><i class="fas fa-key"></i>&thinsp;修改密码</h2>
 				</div>
-				<form method="post" action="login.php">
+				<p class="has-text-centered"><span>😃</span><span id="helloMsg">Hello!</span><span><?=$user_name?></span></p>
+				<br>
+				<form method="post" action="./changepwd.php">
 					<div class="field">
 					  <div class="control">
-						<input class="input" type="text" name="account" value="<?=isset($account)?$account:''?>" required="required" placeholder="账号">
+						<input class="input" type="password" name="old_pwd" required="required" maxlength="200" placeholder="当前旧密码">
 					  </div>
 					</div>
 					<div class="field">
 					  <div class="control">
-						<input class="input" type="password" name="pwd" value="<?=isset($pwd)?$pwd:''?>" required="required" placeholder="密码">
+						<input class="input" type="password" name="new_pwd" required="required" maxlength="200" placeholder="新密码">
 					  </div>
 					</div>
 					<div class="field">
 					  <div class="control">
-						  <div class="columns">
-							  <div class="column is-two-thirds">
-								  <input class="input" type="text" name="captch" required="required" autocomplete="off" placeholder="验证码">
-							  </div>
-							  <div class="column">
-									  <div style="max-height: 36px;max-width: 120px;border-radius: 4px;overflow: hidden;">
-										  <a href="">
-									<figure class="image is-2by1">
-										<img src="./_share/_captch.php"/>
-									</figure>
-								  </a>
-							  </div>
-						  </div>
+						<input class="input" type="password" name="check_pwd" required="required" maxlength="200" placeholder="再次输入新密码">
 					  </div>
-					</div>
-					<div class="field is-inline-block">
-						<div class="control">
-						  <label class="radio">
-							<input type="radio" name="type" value="student" checked="checked">
-							学生&nbsp;
-						  </label>
-						  <label class="radio">
-							<input type="radio" name="type" value="teacher">
-							教师&nbsp;
-						  </label>
-						  <label class="radio">
-							<input type="radio" name="type" value="admin">
-							宿管&nbsp;
-						  </label>
-						</div>
 					</div>
 					<?php
 						if(isset($msg)){
-							echo "<br><span class=\"has-text-danger\">$msg</span>";
+							echo "<span class=\"has-text-danger\">$msg</span><br>";
 						}
 					?>
-					<br><br>
+					<br>
 					  <button type="submit" class="button is-info">
 						  <span>&emsp;</span>
 						<span class="icon">
-						  <i class="fas fa-sign-in-alt"></i>
+						  <i class="fas fa-unlock-alt"></i>
 						</span>
-						<span>&thinsp;登录&emsp;</span>
+						<span>&thinsp;修改&emsp;</span>
 					  </button>
 				</form>
+				<br>
+				<div class="has-text-centered">
+					<a href="../<?=$user_type?>/home.php"><i class="fas fa-arrow-left"></i>&thinsp;返回</a>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+	window.onload = function () {
+		//打招呼
+		now = new Date(), hour = now.getHours()
+		if (hour < 6) { $('#helloMsg').text("凌晨好，") }
+		else if (hour < 9) { $('#helloMsg').text("早上好！") }
+		else if (hour < 12) { $('#helloMsg').text("上午好！") }
+		else if (hour < 14) { $('#helloMsg').text("中午好！") }
+		else if (hour < 17) { $('#helloMsg').text("下午好！") }
+		else if (hour < 19) { $('#helloMsg').text("傍晚好！") }
+		else { $('#helloMsg').text("晚上好，") }
+	}
+</script>
+
 <?php
 	//自动选中radio
 	if(isset($type)){

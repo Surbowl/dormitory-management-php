@@ -26,7 +26,7 @@
 		<div class="column is-two-fifths has-text-centered">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
 				<div class="field is-centered">
-					<h2 class="subtitle">用户登录</h2>
+					<h2 class="subtitle"><i class="fas fa-user"></i>&thinsp;用户登录</h2>
 				</div>
 				<form method="post" action="login.php">
 					<div class="field">

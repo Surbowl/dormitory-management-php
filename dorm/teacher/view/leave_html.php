@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">教师平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -31,54 +31,38 @@
 		</div>
 		<div class="column is-8">
 			<div class="box" data-aos="flip-right" data-aos-duration="800" data-aos-once="true">
-				<h2 class="has-text-centered subtitle"><i class="fas fa-suitcase-rolling"></i>&thinsp;外宿请假</h2>
-				<div class="columns">
-					<div class="column">
-						<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-							<tr>
-								<td>
-									学生姓名:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_name?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									账号（学号）:
-								</td>
-								<td style="padding-left: 15px;">
-									<?=$user_account?>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="column has-text-centered">
-						<a class="button is-info is-outlined is-small" <?=isset($user_id)?"href=\"leave_add.php\"":"disabled=\"disabled\""?>>
-							提交申请
-						</a>
-					</div>
-				</div>
+				<h2 class="has-text-centered subtitle"><i class="fas fa-suitcase-rolling"></i>&thinsp;学生请假</h2>
 					<?php
 						if(empty($leave_list)):
 					?>
-						<p class="has-text-centered">暂无申请记录</p>
+						<p class="has-text-centered">暂无学生提交申请</p>
 					<?php
 						else:
 					?>
 						<table class="table" style="width: 100%;">
 							<thead>
 							    <tr>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>班级</th>
 									<th>起始时间</th>
 									<th>返校时间</th>
-									<th>外宿原因</th>
-									<th>辅导员审批</th>
+									<th>原因</th>
 							    </tr>
 							</thead>
 					<?php
 							foreach($leave_list as $row):
 					?>
 								<tr>
+									<td>
+										<?=$row['account']?>
+									</td>
+									<td>
+										<?=$row['student_name']?>
+									</td>
+									<td>
+										<?=$row['class_name']?>
+									</td>
 									<td>
 										<?=date('Y-m-d H:i',strtotime($row['date_start']))?>
 									</td>
@@ -88,14 +72,67 @@
 									<td>
 										<?=$row['request']?>
 									</td>
-									<td>
-										<?=$row['teacher_response']?>
-									</td>
+								</tr>
+								<tr>
+									<?php
+										$teacher_response=$row['teacher_response'];
+										if(empty($teacher_response)):
+									?>
+										<td colspan="3">
+											&nbsp;<br>&nbsp;
+										</td>
+										<td colspan="1">
+											待回复:
+										</td>
+										<td colspan="2">
+											<div class="buttons">
+												<a class="button is-small is-outlined is-success" onclick="checkYes(<?=$row['id']?>,'<?=$row['student_name']?>')">批准</a>
+												<a class="button is-small is-outlined is-dark" onclick="checkNo(<?=$row['id']?>,'<?=$row['student_name']?>')">否决</a>
+											</div>
+										</td>
+									<?php
+										else:
+									?>
+										<td colspan="3">
+											&nbsp;<br>&nbsp;
+										</td>
+										<td colspan="1">
+											已回复:
+										</td>
+										<td colspan="2">
+											<?=$teacher_response?>
+										</td>
+									<?php
+										endif;
+									?>
 								</tr>
 					<?php 
 							endforeach;
 					?>
 						</table>
+						<form id="form" method="post" action="leave.php?page=<?=$page?>">
+							<!-- 提交用的隐藏表单 -->
+							<input type="hidden" name="id" id="id" />
+							<input type="hidden" name="response" id="response" />
+						</form>
+						<script>
+							function checkYes(id,name){
+								var r = confirm("确定批准"+name+"同学的外宿申请吗？");
+								if (r == true) {
+									$("#id").val(id);
+									$("#response").val("批准");
+								    $("form").submit();
+								}
+							}
+							function checkNo(id,name){
+								var r = confirm("确定否决"+name+"同学的申请吗？");
+								if (r == true) {
+									$("#id").val(id);
+									$("#response").val("不同意");
+								    $("form").submit();
+								}
+							}
+						</script>
 						<?php
 							if($max_page>1):
 						?>

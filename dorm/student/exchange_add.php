@@ -13,10 +13,11 @@
 			$user_account=$_SESSION['user_account'];
 			$user_name=$_SESSION['user_name'];
 			$user_id=$_SESSION['user_id'];
+			$user_sex=$_SESSION['user_sex'];
 			
 			//获取当前宿舍信息
-			$dorm_building=$_SESSION['dorm_building'];
-			$dorm_number=$_SESSION['dorm_number'];
+			$dorm_building=isset($_SESSION['dorm_building'])?$_SESSION['dorm_building']:null;
+			$dorm_number=isset($_SESSION['dorm_number'])?$_SESSION['dorm_number']:null;
 			
 			if($_POST){
 				//目标宿舍的信息
@@ -29,22 +30,27 @@
 				}else{
 					require '../public/_share/_pdo.php';
 					
-					$sql="select id from t_dorm where building='$to_dorm_building' and number='$to_dorm_number'";
+					$sql="select id,sex from t_dorm where building='$to_dorm_building' and number='$to_dorm_number'";
 					$result=$pdo->query($sql);
 					$row=$result->fetch();
 					$to_dorm_id=$row['id'];
 					if(empty($to_dorm_id)){
 						echo "<script>alert('目标宿舍不存在，请核对。')</script>";
 					}else{
-						$sql="insert into t_student_dorm_exchange(`student_id`,`to_dorm_id`,`request`) values($user_id,?,?)";
-						$stmt=$pdo->prepare($sql);
-						$stmt->bindParam(1,$to_dorm_id);
-						$stmt->bindParam(2,$request);
-						if(!$stmt->execute())
-						{
-							exit("申请失败，请重试。".$stmt->errorInfo());
+						$to_dorm_sex=$row['sex'];
+						if($user_sex!=$to_dorm_sex){
+							echo "<script>alert('该宿舍是".$to_dorm_sex."生宿舍，您无法申请更换。')</script>";
+						}else{
+							$sql="insert into t_student_dorm_exchange(`student_id`,`to_dorm_id`,`request`) values($user_id,?,?)";
+							$stmt=$pdo->prepare($sql);
+							$stmt->bindParam(1,$to_dorm_id);
+							$stmt->bindParam(2,$request);
+							if(!$stmt->execute())
+							{
+								exit("申请失败，请重试。".$stmt->errorInfo());
+							}
+							header('Location: ./exchange.php');
 						}
-						header('Location: ./exchange.php');
 					}
 				}
 			}

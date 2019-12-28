@@ -1,5 +1,5 @@
 <?php
-	if(!defined('APP')) die('error!<br>不能直接访问此页面');
+	//if(!defined('APP')) die('error!<br>不能直接访问此页面');
 ?>
 <?php
 	//头部文件
@@ -16,7 +16,7 @@
 			</div>
 			<div class="column has-text-centered">
 				<h1 class="title">工院宿舍管理系统<span class="is-hidden-mobile">&emsp;&emsp;</span></h1>
-				<h2 class="subtitle">学生平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
+				<h2 class="subtitle">教师平台<span class="is-hidden-mobile">&emsp;&emsp;</span></h2>
 			</div>
 		</div>
 	</div>
@@ -34,60 +34,45 @@
 				<h2 class="has-text-centered subtitle"><i class="fas fa-user"></i>&thinsp;个人信息</h2>
 				<p class="has-text-centered"><span>😃</span><span id="helloMsg">Hello!</span><span><?=$user_name?></span></p>
 				<br>
-				<table style="width: 100%;border-collapse:separate; border-spacing:0px 10px;">
-					<tr>
-						<td>
-							ID:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=$user_id?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							账号（学号）:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=$user_account?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							性别:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=$user_sex?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							宿舍楼座:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=isset($dorm_building)?$dorm_building."号楼":"未安排"?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							宿舍门牌:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=isset($dorm_number)?$dorm_number."户":"未安排"?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							是否舍长:
-						</td>
-						<td style="padding-left: 15px;">
-							<?=isset($is_supervisor)?$is_supervisor:"未安排"?>
-						</td>
-					</tr>
-				</table>
-				<br>
-				<div class="has-text-right">
+				<div class="has-text-centered">
 					<a class="button is-info is-outlined is-small" href="../public/changepwd.php">修改密码</a>
 				</div>
+				<br>
+				<?php
+					if(empty($class_list)):
+				?>
+					<p class="has-text-centered">暂无班级信息</p>
+				<?php
+					else:
+				?>
+					<hr>
+					<h2 class="subtitle has-text-centered"><i class="fas fa-chalkboard-teacher"></i>&thinsp;我的班级</h2>
+					<table class="table" style="width: 100%;">
+						<thead>
+						    <tr>
+								<th>院系</th>
+								<th>班级</th>
+						    </tr>
+						</thead>
+				<?php
+						foreach($class_list as $row):
+				?>
+							<tr>
+								<td>
+									<?=$row['department']?>
+								</td>
+								<td>
+									<?=$row['name']?>
+								</td>
+							</tr>
+				<?php 
+						endforeach;
+				?>
+					</table>
+					<br>
+				<?php
+					endif;
+				?>
 			</div>
 		</div>
 	</div>
