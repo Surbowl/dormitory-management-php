@@ -1,7 +1,7 @@
 # dormitory-management-php
 __学生宿舍管理系统__
 <br>
-PHP选修课的期末课设
+PHP 选修课的期末课设
 <br>
 分为学生端、辅导员端、宿管员端
 <br>
