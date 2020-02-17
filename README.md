@@ -7,7 +7,7 @@ PHP 选修课的期末课设
 <br>
 功能大致有：宿舍管理、物业报修、请假管理、违规违纪管理、申请调换宿舍
 <br><br>
-初始化数据库：
+创建 MySql 数据库：
 <br>
 [create_db.sql](https://github.com/Surbowl/dormitory-management-php/blob/master/create_db.sql)
 <br><br>
